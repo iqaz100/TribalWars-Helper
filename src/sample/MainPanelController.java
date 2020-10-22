@@ -1,11 +1,15 @@
 package sample;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.*;
 import java.net.URL;
@@ -25,6 +29,11 @@ public class MainPanelController implements Initializable {
     public TextField numberOfAttacksLabel;
     public Label allPlayersOff;
     public Label allAttacks;
+    public TextField maxOffToOneVilTextField;
+    public TextArea targetVillagesTextArea;
+    public TextField sourceVillageCordsTextField;
+    public TextArea calculatedDistanceTextArea;
+    File file2;
 
     private int numberOfAttacks = 15;
     private int attacksToOneVillage = 1;    //tutaj ataki na jedna wies od jednego gracza
@@ -32,6 +41,7 @@ public class MainPanelController implements Initializable {
     List<Player> players = new ArrayList<>();
     List<Village> villages = new ArrayList<>();
     List<PlayerObjectives> playerObjectives = new ArrayList<>();
+    List<Village> cVillages = new ArrayList<>();
 
     private void clearLists(){
         //players.clear();
@@ -56,6 +66,7 @@ public class MainPanelController implements Initializable {
             line = br.readLine();
         }
     }
+
 
     private void readCSVVillages() throws IOException {
         villages.clear();
@@ -158,14 +169,19 @@ public class MainPanelController implements Initializable {
         if(numberOfAttacksLabel.getText().trim().isEmpty()==false){
             numberOfAttacks = Integer.parseInt(numberOfAttacksLabel.getText());
         }
-        System.out.println("WLAZLEM");
+
+        if(maxOffToOneVilTextField.getText().trim().isEmpty()==false){
+            attacksToOneVillage = Integer.parseInt(maxOffToOneVilTextField.getText());
+        }
+
+        //System.out.println("WLAZLEM");
         readCSVPlayers();
-        System.out.println("WLAZLEM");
+        //System.out.println("WLAZLEM");
         readCSVVillages();
         sortPlayers();
-        System.out.println("WLAZLEM");
+        //System.out.println("WLAZLEM");
         shareVillages();
-        System.out.println("WLAZLEM");
+        //System.out.println("WLAZLEM");
         writeToFile();
     }
 
@@ -216,4 +232,53 @@ public class MainPanelController implements Initializable {
         //ZROBIC SORTOWANKO
         Collections.sort(players,Collections.reverseOrder());
     }
+
+    public void calculateDistanceOnClick(ActionEvent actionEvent) throws IOException {
+        DistanceCalculator dcalc = new DistanceCalculator();
+
+        if(sourceVillageCordsTextField.getText().trim().isEmpty()==false && targetVillagesTextArea.getText().trim().isEmpty()==false)
+        {
+            Village sourceVillage = new Village(sourceVillageCordsTextField.getText());
+            readVillages();
+            for(Village village : cVillages){
+                village.setSquaresToSource(dcalc.calculateDistance(sourceVillage.getCords(),village.getCords()));
+                System.out.println("TUTAJ" + village.getSquaresToSource());
+                calculatedDistanceTextArea.appendText(village.getCords() + " " + village.getSquaresToSource() + "\n");
+            }
+        }
+    }
+
+    public void readVillages() throws IOException {
+        cVillages.clear();
+        BufferedReader br = new BufferedReader(new StringReader(targetVillagesTextArea.getText()));
+
+        int tempNumberOfAttacks;
+        String line =  br.readLine();
+
+        while(line != null){
+            Village village = new Village(line);
+            cVillages.add(village);
+
+            line = br.readLine();
+        }
+    }
+
+    public void chooseFileOnClick(ActionEvent actionEvent) {
+        String currentDir = System.getProperty("user.dir");
+        File file = new File(currentDir);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(file);
+        fileChooser.setTitle("Wybierz plik z lista fejkow");
+        file2 = fileChooser.showOpenDialog(new Stage());
+
+    }
+
+    public void countFakesOnClick(ActionEvent actionEvent) throws IOException {
+        FakesCounter fakesCounter = new FakesCounter();
+
+        fakesCounter.readFile(file2.toString());
+        fakesCounter.writeTableToFile();
+    }
+
+
 }

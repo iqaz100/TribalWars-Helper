@@ -33,6 +33,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
+                        <TextField fx:id="maxOffToOneVilTextField" layoutX="352.0" layoutY="369.0" prefHeight="25.0" prefWidth="178.0" promptText="Max. l. offów gracza na wieś" />
                      </children>
                   </AnchorPane>
             </content>
@@ -49,12 +50,15 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
-                            <TextArea layoutX="46.0" layoutY="96.0" prefHeight="255.0" prefWidth="91.0" promptText="Kordy wiosek" />
-                            <TextField layoutX="47.0" layoutY="62.0" prefHeight="25.0" prefWidth="90.0" promptText="Kordy wsi docelowej" />
-                            <Button layoutX="46.0" layoutY="371.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="91.0" text="Wylicz" />
+                            <TextArea fx:id="targetVillagesTextArea" layoutX="46.0" layoutY="96.0" prefHeight="255.0" prefWidth="91.0" promptText="Kordy wiosek" />
+                            <TextField fx:id="sourceVillageCordsTextField" layoutX="47.0" layoutY="62.0" prefHeight="25.0" prefWidth="90.0" promptText="Kordy wsi docelowej" />
+                            <Button fx:id="calculateDistanceButton" layoutX="46.0" layoutY="371.0" mnemonicParsing="false" onAction="#calculateDistanceOnClick" prefHeight="35.0" prefWidth="91.0" text="Wylicz" />
                         <Label layoutX="65.0" layoutY="27.0" prefHeight="27.0" prefWidth="182.0" text="Kalkulator masowych odleglosci" />
-                        <TextArea editable="false" layoutX="156.0" layoutY="63.0" prefHeight="344.0" prefWidth="126.0" promptText="Tutaj pojawią sie posortowane wyniki od najbliższej" />
+                        <TextArea fx:id="calculatedDistanceTextArea" editable="false" layoutX="156.0" layoutY="63.0" prefHeight="344.0" prefWidth="126.0" promptText="Tutaj pojawią sie posortowane wyniki od najbliższej" />
                         <Separator layoutX="340.0" orientation="VERTICAL" prefHeight="436.0" prefWidth="0.0" />
+                        <Label layoutX="367.0" layoutY="32.0" text="Zliczanie fejków - Z PLIKU!" />
+                        <Button layoutX="368.0" layoutY="75.0" mnemonicParsing="false" onAction="#chooseFileOnClick" prefHeight="25.0" prefWidth="139.0" text="Wybierz plik" />
+                        <Button layoutX="521.0" layoutY="75.0" mnemonicParsing="false" onAction="#countFakesOnClick" prefHeight="25.0" prefWidth="140.0" text="Zlicz fejki" />
                         </children></AnchorPane>
                 </content>
             </Tab>

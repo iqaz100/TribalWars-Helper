@@ -18,9 +18,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        DistanceCalculator dcalc = new DistanceCalculator("567|453","555|666");
-        dcalc.convertCords("567|453","555|666");
-        dcalc.calculateDistance(new int[]{530, 461}, new int[]{532, 463});
         launch(args);
     }
 }

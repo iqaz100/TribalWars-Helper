@@ -9,6 +9,10 @@ public class DistanceCalculator {
         cordinateTarget = cord2;
     }
 
+    public DistanceCalculator(){
+
+    }
+
     public String cordinateSource;
     public String cordinateTarget;
     public int[] cords1 = new int[2];
@@ -16,7 +20,7 @@ public class DistanceCalculator {
 
     public void convertCords(String cord1, String cord2){
         String[] temp = cord1.split("\\|",2);
-        for(int i=0 ; i<1 ; i++){
+        for(int i=0 ; i<2 ; i++){
             cords1[i] = Integer.parseInt(temp[i]);
         }
 
@@ -25,6 +29,21 @@ public class DistanceCalculator {
             cords2[i] = Integer.parseInt(temp[i]);
         }
 
+    }
+
+    public Double calculateDistance(String cordinateSource, String cordinateTarget){
+        convertCords(cordinateSource,cordinateTarget);  //NIEOPTYMALNE!
+        int x, y;
+        double result;
+        x = Math.abs(cords1[0] - cords2[0]);  //wartosc bezwzgledna
+        y = Math.abs(cords1[1] - cords2[1]);  //wartosc bezwzgledna
+        result = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
+
+
+        System.out.println(x);
+        System.out.println(y);
+        System.out.println(result);
+        return result;
     }
 
     public void calculateDistance(int[] cordinateSource, int[] cordinateTarget){
